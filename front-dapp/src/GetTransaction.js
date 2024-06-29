@@ -1,51 +1,51 @@
-// src/pages/GetTransaction.js
 import React, { useState } from 'react';
+import axios from 'axios';
 
-function GetTransaction() {
-  const [transactionID, setTransactionID] = useState('');
-  const [transaction, setTransaction] = useState(null);
+function GetDocument({ token }) {
+  const [documentID, setDocumentID] = useState('');
+  const [document, setDocument] = useState(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Aquí iría la lógica para consultar la transacción en el backend
-    console.log('Consultando transacción con ID:', transactionID);
-    // Simulación de datos recibidos
-    setTransaction({
-      id: transactionID,
-      sender: 'Usuario Ejemplo',
-      receiver: 'Usuario Receptor',
-      amount: 100,
-      timestamp: '2024-06-16T10:00:00'
-    });
+
+    try {
+      const response = await axios.get(`http://localhost:4000/documents/${documentID}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.data) {
+        setDocument(response.data);
+        alert(`Transaction found: \nTxID: ${response.data._id}\nTrade Date: ${response.data.trade_date}\nBuyer: ${response.data.buyer}\nSeller: ${response.data.seller}\nAsset Code: ${response.data.asset_code}\nQuantity: ${response.data.quantity}\nPrice: ${response.data.price}`);
+      } else {
+        setDocument(null);
+        alert('Transaction does not exist');
+      }
+    } catch (err) {
+      setDocument(null);
+      alert('Transaction does not exist');
+    }
   };
 
   return (
-    <div className="page-container">
-      <h1>Consultar Transacción</h1>
+    <div className="query-transaction-container">
       <form onSubmit={handleSubmit}>
+        <h1>Query Transaction</h1>
         <div className="form-group">
-          <label htmlFor="transactionID">ID de la Transacción</label>
+          <label htmlFor="id">Transaction ID</label>
           <input
             type="text"
-            id="transactionID"
-            value={transactionID}
-            onChange={(e) => setTransactionID(e.target.value)}
+            id="id"
+            value={documentID}
+            onChange={(e) => setDocumentID(e.target.value)}
+            required
           />
         </div>
-        <button type="submit">Consultar Transacción</button>
+        <button type="submit">Query</button>
       </form>
-      {transaction && (
-        <div className="transaction-details">
-          <h2>Detalles de la Transacción</h2>
-          <p>ID: {transaction.id}</p>
-          <p>Remitente: {transaction.sender}</p>
-          <p>Receptor: {transaction.receiver}</p>
-          <p>Cantidad: {transaction.amount}</p>
-          <p>Fecha y Hora: {transaction.timestamp}</p>
-        </div>
-      )}
     </div>
   );
 }
 
-export default GetTransaction;
+export default GetDocument;
