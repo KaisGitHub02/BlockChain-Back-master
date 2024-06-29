@@ -1,0 +1,4 @@
+Installed chaincodes on peer:
+Package ID: transaction_cc_1:278b3acdf763f05e1cdb381998cbe3de87c7c2ae34237bc6b43955568942a5c9, Label: transaction_cc_1
+Package ID: fabcar_1:9c60a0b4586a51639ab644b3e13685016513d3e18ab3f377149f7ecba03ce7dd, Label: fabcar_1
+Package ID: document_cc_1:cab7a4581b8f1c2c7241f3f5c2c592b6a8861feb326a3338d5d6aae083efddcc, Label: document_cc_1

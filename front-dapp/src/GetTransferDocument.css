@@ -1,0 +1,93 @@
+/* src/pages/GetTransferDocument.css */
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #f4f4f9;
+  min-height: 100vh;
+}
+
+h1 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+button[type="submit"] {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+.document-details {
+  margin-top: 30px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.document-details h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.result-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.result-table td,
+.result-table th {
+  border: 1px solid #007bff;
+  padding: 10px;
+  text-align: left;
+}
+
+.result-table th {
+  background-color: #007bff;
+  color: 007bff;
+}
+
+.result-table tr:nth-child(even) {
+  background-color: #007bff;
+}
+
+.document-image {
+  width: 100%;
+  max-width: 600px;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+.error {
+  color: red;
+  margin-top: 20px;
+}
