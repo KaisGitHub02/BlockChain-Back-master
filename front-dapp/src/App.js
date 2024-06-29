@@ -36,6 +36,11 @@ function App() {
     });
   };
 
+  const handleLogin = (username, token) => {
+    setToken(token);
+    setCurrentUser(username);
+  };
+
   const handleLogout = () => {
     setToken(null);
   };
@@ -50,7 +55,7 @@ function App() {
         <Route path="/add-document" element={<AddDocument token={token} />} />
         <Route path="/get-document" element={<GetDocument token={token} />} />
         <Route path="/transfer-document" element={<TransferDocument token={token} />} />
-        <Route path="/get-transfer-document" element={<GetTransferDocument token={token} />} />
+        <Route path="/get-transfer-document" element={<GetTransferDocument token={token} currentUser={currentUser} />} />
         <Route path="/add-asset" element={<AddAsset token={token} />} />
         <Route path="/register" element={<RegisterUser />} />
       </Routes>
