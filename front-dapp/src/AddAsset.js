@@ -2,22 +2,23 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 function AddAsset() {
-  const [assetID, setAssetID] = useState('');
+  const [id, setId] = useState('');
   const [tradeDate, setTradeDate] = useState('');
   const [buyer, setBuyer] = useState('');
   const [seller, setSeller] = useState('');
-  const [assetCode, setAssetCode] = useState('');
+  const [stockCode, setStockCode] = useState('');
   const [quantity, setQuantity] = useState('');
   const [price, setPrice] = useState('');
+  const [txid, setTxid] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const assetData = {
-      assetID,
+      id,
       tradeDate,
       buyer,
       seller,
-      assetCode,
+      stockCode,
       quantity,
       price
     };
@@ -43,12 +44,12 @@ function AddAsset() {
       <h1>Añadir Activo</h1>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="assetID">ID del Activo</label>
+          <label htmlFor="id">ID del Activo</label>
           <input
             type="text"
-            id="assetID"
-            value={assetID}
-            onChange={(e) => setAssetID(e.target.value)}
+            id="id"
+            value={id}
+            onChange={(e) => setId(e.target.value)}
             required
           />
         </div>
@@ -83,12 +84,12 @@ function AddAsset() {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="assetCode">Código del Activo</label>
+          <label htmlFor="stockCode">Código del Activo</label>
           <input
             type="text"
-            id="assetCode"
-            value={assetCode}
-            onChange={(e) => setAssetCode(e.target.value)}
+            id="stockCode"
+            value={stockCode}
+            onChange={(e) => setStockCode(e.target.value)}
             required
           />
         </div>
