@@ -1,3 +1,5 @@
+// src/components/Navbar.js
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
@@ -11,8 +13,7 @@ function Navbar({ onLogout }) {
         <li><Link to="/query-transaction">Query Transaction</Link></li>
         <li><Link to="/add-document">Add Document</Link></li>
         <li><Link to="/get-document">Get Document</Link></li>
-        <li><Link to="/transfer-document">Transfer Document</Link></li>
-        <li><Link to="/get-transfer-document">Get Transfer Document</Link></li> {/* New link */}
+        <li><Link to="/get-transfer-document">Get Transfer Document</Link></li>
         <li><button onClick={onLogout}>Logout</button></li>
       </ul>
     </nav>
