@@ -4,19 +4,35 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './GetTransferDocument.css';
 
-function GetTransferDocument() {
+function GetTransferDocument({ token, currentUser }) {
   const [documentID, setDocumentID] = useState('');
   const [document, setDocument] = useState(null);
   const [error, setError] = useState(null);
+
+  const [id, setId] = useState('');
+  const [tradeDate, setTradeDate] = useState('');
+  const [buyer, setBuyer] = useState('');
+  const [stockCode, setStockCode] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await axios.get(`http://localhost:4000/documents/${documentID}`);
+      const response = await axios.get(`http://localhost:4000/documents/${documentID}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
 
-      setDocument(response.data);
+      const data = response.data;
+      setDocument(data);
       setError(null);
+
+      // Populate the state with the document data
+      setId(data.id || '');
+      setTradeDate(data.tradeDate || '');
+      setBuyer(data.buyer || '');
+      setStockCode(data.stockCode || '');
     } catch (err) {
       console.error(err);
       setDocument(null);
@@ -35,6 +51,7 @@ function GetTransferDocument() {
             id="documentID"
             value={documentID}
             onChange={(e) => setDocumentID(e.target.value)}
+            required
           />
         </div>
         <button type="submit">Consultar Documento</button>
@@ -46,24 +63,28 @@ function GetTransferDocument() {
             <tbody>
               <tr>
                 <td>ID:</td>
-                <td>{document._id}</td>
+                <td>{id}</td>
               </tr>
               <tr>
-                <td>Propietario:</td>
-                <td>{document.owner}</td>
+                <td>Comprador:</td>
+                <td>{buyer}</td>
               </tr>
               <tr>
                 <td>Fecha de Añadido:</td>
-                <td>{new Date(document.addedAt).toLocaleDateString()}</td>
+                <td>{new Date(tradeDate).toLocaleDateString()}</td>
               </tr>
-              <tr>
-                <td>Hash del Contenido:</td>
-                <td>{document.contentHash}</td>
-              </tr>
-              <tr>
-                <td>Imagen:</td>
-                <td><img src={`https://gateway.pinata.cloud/ipfs/${document.contentHash}`} alt="Documento Imagen" className="document-image" /></td>
-              </tr>
+              {currentUser === buyer && (
+                <>
+                  <tr>
+                    <td>Hash del Contenido (Stock Code):</td>
+                    <td>{stockCode}</td>
+                  </tr>
+                  <tr>
+                    <td>Imagen:</td>
+                    <td><img src={`https://gateway.pinata.cloud/ipfs/${stockCode}`} alt="Documento Imagen" className="document-image" /></td>
+                  </tr>
+                </>
+              )}
             </tbody>
           </table>
         </div>
