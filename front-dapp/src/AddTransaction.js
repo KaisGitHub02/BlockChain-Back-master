@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './AddTransaction.css';
 
-function AddTransaction() {
+function AddTransaction({ token }) {
     const [id, setId] = useState('');
     const [tradeDate, setTradeDate] = useState('');
     const [buyer, setBuyer] = useState('');
@@ -35,14 +35,14 @@ function AddTransaction() {
     }, {
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer`,
+        'Authorization': `Bearer ${token}`,
       }
     })
     .then((response) => {
         console.log(response);
         // setTxid(response.data.result.result.txid); 
-        alert('Transaction added successfully! TxID: '+response.data.result.result.txid); // 添加成功后设置提示信息
-        setId(''); // 重置表单中所有state为默认值
+        alert('Transaction added successfully! TxID: '+response.data.result.result.txid);
+        setId(''); 
         setTradeDate('');
         setBuyer('');
         setSeller('');
