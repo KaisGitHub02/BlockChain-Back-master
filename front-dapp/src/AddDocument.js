@@ -3,37 +3,52 @@ import axios from 'axios';
 import './AddDocument.css';
 
 function AddDocument({ token }) {
-  const [documentData, setDocumentData] = useState({
-    id: '',
-    name: '',
-    addedAt: '',
-    url: '',
-    contentHash: '',
-    owner: '',
-    detail: ''
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setDocumentData({
-      ...documentData,
-      [name]: value
-    });
-  };
+  const [id, setId] = useState('');
+  const [tradeDate, setTradeDate] = useState('');
+  const [buyer, setBuyer] = useState('');
+  const [seller, setSeller] = useState('');
+  const [stockCode, setStockCode] = useState('');
+  const [quantity, setQuantity] = useState('');
+  const [price, setPrice] = useState('');
+  const [txid, setTxid] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:4000/documents', documentData, {
+    if (!id || !tradeDate || !stockCode || !seller || !price) {
+      alert('Please fill in all fields.');
+      return;
+    }
+    const data = {
+      id: id,
+      tradeDate: tradeDate,
+      url: url,
+      stockCode: stockCode,
+      seller: seller,
+      price: parseFloat(price),
+    };
+    axios.post('http://localhost:4000/documents', {
+      fcn: 'CreateDocument',
+      chaincodeName: 'document_cc',
+      channelName: 'mychannel',
+      args: [JSON.stringify(data)],
+    }, {
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${token}`,
       }
     })
-    .then(response => {
-      console.log(response.data);
-      alert(`Documento añadido con éxito! _id: ${response.data.id}`);
+    .then((response) => {
+      console.log(response);
+      alert('Documento añadido con éxito! TxID: ' + response.data.result.result.txid);
+      setId('');
+      setTradeDate('');
+      setStockCode('');
+      setSeller('');
+      setQuantity(1);
+      setSeller('');
+      setPrice('');
     })
-    .catch(error => {
+    .catch((error) => {
       console.error(error);
       alert('Error al añadir el documento');
     });
@@ -49,74 +64,52 @@ function AddDocument({ token }) {
             type="text"
             id="id"
             name="id"
-            value={documentData.id}
-            onChange={handleChange}
+            value={id}
+            onChange={(e) => setId(e.target.value)}
             required
           />
         </div>
         <div className="form-group">
-          <label htmlFor="name">Nombre</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={documentData.name}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="addedAt">Fecha de Añadido</label>
+          <label htmlFor="tradeDate">Fecha de Añadido</label>
           <input
             type="date"
-            id="addedAt"
-            name="addedAt"
-            value={documentData.addedAt}
-            onChange={handleChange}
+            id="tradeDate"
+            name="tradeDate"
+            value={tradeDate}
+            onChange={(e) => setTradeDate(e.target.value)}
             required
           />
         </div>
         <div className="form-group">
-          <label htmlFor="url">URL</label>
+          <label htmlFor="stockCode">Hash del Contenido</label>
           <input
             type="text"
-            id="url"
-            name="url"
-            value={documentData.url}
-            onChange={handleChange}
+            id="stockCode"
+            name="stockCode"
+            value={stockCode}
+            onChange={(e) => setStockCode(e.target.value)}
             required
           />
         </div>
         <div className="form-group">
-          <label htmlFor="contentHash">Hash del Contenido</label>
+          <label htmlFor="seller">Propietario</label>
           <input
             type="text"
-            id="contentHash"
-            name="contentHash"
-            value={documentData.contentHash}
-            onChange={handleChange}
+            id="seller"
+            name="seller"
+            value={seller}
+            onChange={(e) => setSeller(e.target.value)}
             required
           />
         </div>
         <div className="form-group">
-          <label htmlFor="owner">Propietario</label>
+          <label htmlFor="price">price</label>
           <input
-            type="text"
-            id="owner"
-            name="owner"
-            value={documentData.owner}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="detail">Detalle</label>
-          <input
-            type="text"
-            id="detail"
-            name="detail"
-            value={documentData.detail}
-            onChange={handleChange}
+            type="number"
+            id="price"
+            name="price"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
             required
           />
         </div>
