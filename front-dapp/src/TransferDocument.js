@@ -1,18 +1,27 @@
 // src/pages/TransferDocument.js
 import React, { useState } from 'react';
 import axios from 'axios';
-function TransferDocument() {
+
+function TransferDocument({ token }) {
   const [documentID, setDocumentID] = useState('');
-  const [newOwner, setNewOwner] = useState('');
+  const [buyer, setBuyer] = useState('');
+  const [id, setId] = useState('');
+  const [tradeDate, setTradeDate] = useState('');
+  const [seller, setSeller] = useState('');
+  const [stockCode, setStockCode] = useState('');
+  const [quantity, setQuantity] = useState('');
+  const [price, setPrice] = useState('');
+
   const [documentData, setDocumentData] = useState({
-    id: '12345',
-    name: 'Documento de Ejemplo',
-    addedAt: '2024-06-16',
-    url: 'https://ejemplo.com/documento.pdf',
-    contentHash: 'b2a5e6fdfd89af6a3c9d1f9c08b3a2b7',
-    owner: '2dcdb26712af0ebc75f814e34a41ea58d77ea81ce0f295b1de0274e9e7814322',
-    detail: '10'
+    id: '',
+    tradeDate: '',
+    buyer: '',
+    seller: '',
+    stockCode: '',
+    quantity: '',
+    price: ''
   });
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setDocumentData({
@@ -23,22 +32,28 @@ function TransferDocument() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:4000/documents', documentData, {
+
+    const transferData = {
+      ...documentData,
+      id: documentID,
+      buyer: buyer
+    };
+
+    axios.post('http://localhost:4000/documents/transfer', transferData, {
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
       }
     })
     .then(response => {
       console.log(response.data);
-      alert('Documento añadido con éxito');
+      alert('Documento transferido con éxito');
     })
     .catch(error => {
       console.error(error);
-      alert('Document transfered successfully! _id: 8c4bc9f36b3906e9f677572c47008552');
+      alert('Error al transferir el documento');
     });
   };
-
-  
 
   return (
     <div className="page-container">
@@ -49,17 +64,19 @@ function TransferDocument() {
           <input
             type="text"
             id="documentID"
+            name="id"
             value={documentID}
             onChange={(e) => setDocumentID(e.target.value)}
           />
         </div>
         <div className="form-group">
-          <label htmlFor="newOwner">Nuevo Propietario</label>
+          <label htmlFor="buyer">Nuevo Propietario</label>
           <input
             type="text"
-            id="newOwner"
-            value={newOwner}
-            onChange={(e) => setNewOwner(e.target.value)}
+            id="buyer"
+            name="buyer"
+            value={buyer}
+            onChange={(e) => setBuyer(e.target.value)}
           />
         </div>
         <button type="submit">Transferir Documento</button>
