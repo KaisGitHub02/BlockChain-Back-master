@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-function AddAsset() {
+function AddAsset({ token }) {
   const [id, setId] = useState('');
   const [tradeDate, setTradeDate] = useState('');
   const [buyer, setBuyer] = useState('');
